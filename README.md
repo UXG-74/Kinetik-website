@@ -2,6 +2,8 @@
 
 Marketing site for **KINETIK** — React, TypeScript, and Vite. Layout keyed to the Figma homepage (`2108:810`) where noted in source.
 
+**Path:** `~/Kinetik/website` (sibling of **Kinetik App** in `~/Kinetik/app`).
+
 ## Scripts
 
 | Command            | Purpose                 |

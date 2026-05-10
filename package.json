@@ -1,5 +1,6 @@
 {
   "name": "kinetik-website",
+  "description": "Kinetik website — marketing site for KINETIK",
   "private": true,
   "version": "0.0.0",
   "type": "module",
