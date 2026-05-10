@@ -1,0 +1,53 @@
+/*
+ * Geometry matches exported `Status Bar - iPhone.svg`: 402 × 50 artboard.
+ * Icons sit in native coordinates so spacing vs screen edges matches the file.
+ *
+ * Typography uses `--phone-inner-w` (set on `.phone-screen-abs`, default 393) so
+ * 17 px / 22 lh in design space track the same scale factor as width 393 → 402.
+ */
+
+.iphone-status {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 402 / 50;
+  flex-shrink: 0;
+}
+
+.iphone-status-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+/* Live clock inset ≈ horizontal start of vector time (first move ~56 in file) */
+.iphone-status-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding-left: calc(var(--phone-inner-w, 393px) * 56 / 402);
+  pointer-events: none;
+}
+
+/* 17 / 22 in artboard px — scaled by inner screen width vs 402 */
+.iphone-status-time {
+  pointer-events: auto;
+  margin: 0;
+  font-family:
+    'SF Pro Text',
+    'SF Pro Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Helvetica Neue',
+    system-ui,
+    sans-serif;
+  font-weight: 590;
+  font-variation-settings: 'wdth' 100;
+  font-size: calc(var(--phone-inner-w, 393px) * 17 / 402);
+  line-height: calc(var(--phone-inner-w, 393px) * 22 / 402);
+  letter-spacing: -0.026em;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}

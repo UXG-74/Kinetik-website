@@ -1,0 +1,256 @@
+/**
+ * Precise chassis from Figma (node 2108:3398):
+ * Device asset: 447×906 px, inset screen: x=27 y=27, size 393×852 px.
+ */
+
+.phone-mount {
+  width: min(447px, 100%);
+  max-width: min(447px, 100%);
+  margin-inline: auto;
+  position: relative;
+}
+
+.phone-measure-h {
+  transition: height 0.08s linear;
+}
+
+/* Native design canvas */
+.phone-canvas {
+  position: relative;
+  width: 447px;
+  height: 906px;
+  transform-origin: top left;
+  z-index: 0;
+}
+
+/* Screen punched under bezel mock */
+.phone-screen-abs {
+  position: absolute;
+  left: 27px;
+  top: 27px;
+  width: 393px;
+  height: 852px;
+  /* Status bar typography/spacing keyed to SVG 402-wide art scaled to this width */
+  --phone-inner-w: 393px;
+  border-radius: 20px;
+  overflow: clip;
+  background: linear-gradient(180deg, #000000 0%, #121a2e 100%);
+  z-index: 2;
+}
+
+/* Out of normal flow — layout uses padding for vertical alignment vs bezel/island chrome */
+.phone-screen-abs .iphone-status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 6;
+}
+
+.phone-bezel-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 447px;
+  height: 906px;
+  pointer-events: none;
+  z-index: 4;
+  user-select: none;
+}
+
+.phone-shadow-abs {
+  position: absolute;
+  left: 50%;
+  top: 867px;
+  transform: translateX(-50%);
+  width: 440px;
+  height: 20px;
+  pointer-events: none;
+  opacity: 0.88;
+  z-index: 1;
+}
+
+.phone-shadow-abs img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Body-load graph animations (explicit pixel bars) ── */
+
+.graph-wave {
+  width: 100%;
+  height: 100%;
+  transform-origin: bottom center;
+  will-change: transform;
+  animation: kinetik-graph-wave 2.05s ease-in-out infinite alternate;
+}
+
+.graph-grow {
+  width: 100%;
+  border-radius: 10px;
+  transform-origin: bottom center;
+  transform: scaleY(0);
+  will-change: transform;
+  animation: kinetik-graph-rise 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.graph-host:nth-child(1) .graph-grow {
+  animation-delay: 0ms;
+}
+
+.graph-host:nth-child(2) .graph-grow {
+  animation-delay: 70ms;
+}
+
+.graph-host:nth-child(3) .graph-grow {
+  animation-delay: 140ms;
+}
+
+.graph-host:nth-child(4) .graph-grow {
+  animation-delay: 210ms;
+}
+
+.graph-host:nth-child(5) .graph-grow {
+  animation-delay: 280ms;
+}
+
+.graph-host:nth-child(6) .graph-grow {
+  animation-delay: 350ms;
+}
+
+.graph-host:nth-child(7) .graph-grow {
+  animation-delay: 420ms;
+}
+
+.graph-host:nth-child(8) .graph-grow {
+  animation-delay: 490ms;
+}
+
+.graph-host:nth-child(9) .graph-grow {
+  animation-delay: 560ms;
+}
+
+.graph-host:nth-child(10) .graph-grow {
+  animation-delay: 630ms;
+}
+
+.graph-host:nth-child(11) .graph-grow {
+  animation-delay: 700ms;
+}
+
+.graph-host:nth-child(12) .graph-grow {
+  animation-delay: 770ms;
+}
+
+.graph-host:nth-child(13) .graph-grow {
+  animation-delay: 840ms;
+}
+
+.graph-host:nth-child(1) .graph-wave {
+  animation-delay: 0ms;
+}
+
+.graph-host:nth-child(2) .graph-wave {
+  animation-delay: 80ms;
+}
+
+.graph-host:nth-child(3) .graph-wave {
+  animation-delay: 160ms;
+}
+
+.graph-host:nth-child(4) .graph-wave {
+  animation-delay: 240ms;
+}
+
+.graph-host:nth-child(5) .graph-wave {
+  animation-delay: 320ms;
+}
+
+.graph-host:nth-child(6) .graph-wave {
+  animation-delay: 400ms;
+}
+
+.graph-host:nth-child(7) .graph-wave {
+  animation-delay: 480ms;
+}
+
+.graph-host:nth-child(8) .graph-wave {
+  animation-delay: 560ms;
+}
+
+.graph-host:nth-child(9) .graph-wave {
+  animation-delay: 640ms;
+}
+
+.graph-host:nth-child(10) .graph-wave {
+  animation-delay: 720ms;
+}
+
+.graph-host:nth-child(11) .graph-wave {
+  animation-delay: 800ms;
+}
+
+.graph-host:nth-child(12) .graph-wave {
+  animation-delay: 880ms;
+}
+
+.graph-host:nth-child(13) .graph-wave {
+  animation-delay: 960ms;
+}
+
+@keyframes kinetik-graph-rise {
+  from {
+    transform: scaleY(0.04);
+    opacity: 0.9;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes kinetik-graph-wave {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* Heart */
+.k-heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center;
+  animation: kinetik-heart 1.12s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes kinetik-heart {
+  0%,
+  35%,
+  100% {
+    transform: scale(1);
+  }
+  18% {
+    transform: scale(1.36);
+  }
+  26% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .graph-grow,
+  .graph-wave,
+  .k-heart {
+    animation: none !important;
+  }
+
+  .graph-grow {
+    transform: scaleY(1);
+  }
+}

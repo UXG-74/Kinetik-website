@@ -1,0 +1,882 @@
+.site {
+  background: #000;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  /* Figma homepage frame 2108:810 horizontal inset — 66px; mobile 30px */
+  padding-inline: 30px;
+}
+
+@media (min-width: 769px) {
+  .container {
+    padding-inline: 66px;
+  }
+}
+
+section {
+  scroll-margin-top: 112px;
+}
+
+/* ——— Header ———
+ * Figma has no nav background: header must OVERLAY the hero, not sit above it.
+ * Flow + sticky drew a `.site`-colored strip (reads as an invented panel).
+ */
+.hdr {
+  font-family: var(--font-sf);
+  font-variation-settings: 'wdth' 100;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  background: none;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+}
+
+/*
+ * Figma homepage: logo + hero share the same container gutter; nav is centered on the row.
+ * Use symmetric 1fr | auto | 1fr so the logo aligns with .hero-grid’s left column (not
+ * minmax(0,1fr) | auto | minmax(0,1fr), which shifts the left column when nav width changes).
+ */
+.hdr-inner {
+  pointer-events: auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: flex-start;
+  column-gap: 24px;
+  padding: 42px 0 24px;
+}
+
+@media (max-width: 900px) {
+  .hdr-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    row-gap: 16px;
+  }
+
+  .brand-mark,
+  .nav-row,
+  .hdr-actions {
+    grid-column: 1;
+    justify-self: center;
+  }
+
+  .hdr-actions {
+    margin-top: 0;
+  }
+
+  .brand-mark {
+    margin-top: 0;
+  }
+
+  .nav-row {
+    margin-top: 0;
+    flex-wrap: wrap;
+  }
+}
+
+.brand-mark {
+  grid-column: 1;
+  justify-self: start;
+  text-decoration: none;
+  color: inherit;
+  margin-top: 11px;
+}
+
+.brand-logo {
+  font-family: var(--font-cal);
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 22px;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0;
+}
+
+.brand-tag {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: normal;
+  color: #fff;
+  margin: 10px 0 0;
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .brand-tag {
+    font-size: max(14px, 13px);
+  }
+}
+
+.nav-row {
+  grid-column: 2;
+  justify-self: center;
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 72px;
+  flex-wrap: nowrap;
+}
+
+.nav-row a {
+  font-family: var(--font-sf);
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 510;
+  line-height: 22px;
+  font-variation-settings: 'wdth' 100;
+  padding-block: 2px;
+}
+
+.nav-row a:hover {
+  opacity: 0.85;
+}
+
+.btn {
+  font-family: var(--font-sf);
+  border-radius: 999px;
+  font-weight: 590;
+  font-size: clamp(14px, 1rem, 16px);
+  padding: 10px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid var(--accent);
+}
+
+.btn-sign-in {
+  font-family: var(--font-sf);
+  font-weight: 510;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.btn-fill {
+  background: var(--accent);
+  color: #121a2e;
+}
+
+.btn-ghost-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid var(--accent);
+}
+
+.hdr-actions {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 11px;
+}
+
+/* ——— Hero ——— */
+.hero {
+  position: relative;
+  min-height: min(92vh, 980px);
+  /*
+   * Avoid display:grid here — nested grid alignment was vertically centering the hero strip
+   * and drifting content away from Figma 2108:810 offsets (eyebrow y≈187, phone y≈147).
+   */
+  display: block;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Bias toward upper frame (torsos/faces), not cropping to legs-only */
+  object-position: center 18%;
+}
+
+.hero-video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 26, 46, 0.9) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  pointer-events: none;
+}
+
+/*
+ * Anchor copy to the column’s start edge — same horizontal keyline as .container padding
+ * and the logo (stretch + max-width can leave phantom inset in some grids).
+ */
+.hero-copy {
+  box-sizing: border-box;
+  width: min(100%, 922px);
+  max-width: 922px;
+  justify-self: start;
+  text-align: left;
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 6vw, 64px);
+  align-items: center;
+  justify-items: start;
+  /* Eyebrow y=187 from top of homepage 2108:810 — matches Figma stacked with fixed header (~53 logo row) */
+  padding-top: clamp(118px, 16vh, 187px);
+  padding-bottom: clamp(36px, 8vh, 72px);
+}
+
+/* Full track width so .phone-mount { margin-inline: auto } centers on stacked mobile */
+.hero-media {
+  justify-self: stretch;
+  width: 100%;
+}
+
+/*
+ * Homepage hero 2108:810 — 1440 artboard @ min-width 980:
+ * - Copy + phone anchored to proportional columns: inner (1440 − 66 − 76) = 1298px → 952 : 356
+ *   (= distance from inset to phone left 952px, second track to frame edge 356 incl. 346-wide asset + 76 right margin).
+ * - Phone bounding rect top y=147 — eyebrow y=187 → shift mockup −40px to align tops.
+ */
+@media (min-width: 980px) {
+  .hero-grid.container {
+    padding-inline: 66px 76px;
+    align-items: start;
+    column-gap: 0;
+    grid-template-columns: 952fr 356fr;
+  }
+
+  .hero-media {
+    margin-top: -40px;
+    align-self: start;
+  }
+
+  /* Figma 2108:810 vertical rhythm — lede top 492 → CTA 597 (105); CTA ends 641 → trust intro 674 (33) */
+  .hero-cta {
+    margin-top: 105px;
+  }
+
+  .trust-row {
+    margin-top: 33px;
+  }
+
+  /* Figma phone preview 2108:832 outer width 346 — mockup scales from 447 art via ResizeObserver */
+  .hero-media .phone-mount {
+    max-width: min(346px, 100%);
+  }
+}
+
+.eyebrow {
+  font-family: var(--font-sf);
+  font-weight: 510;
+  font-variation-settings: 'wdth' 100;
+  /* Gap to headline — Figma: eyebrow ends ~212 @ 187+25, headline y=232 → 20px */
+  margin: 0 0 20px;
+  color: #02fb9b;
+  font-size: 16px;
+  line-height: 26px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Cal Sans Regular 100px / 80 line — Figma headline block */
+.hero-display {
+  font-family: var(--font-cal);
+  font-weight: 400;
+  font-size: clamp(2.85rem, 10vw, 100px);
+  line-height: 0.8;
+  letter-spacing: 0;
+  color: #fff;
+  margin: 0;
+}
+
+.hero-line {
+  display: block;
+  margin: 0;
+}
+
+.hero-display .accent {
+  color: #02fb9b;
+}
+
+
+.hero-lede {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  max-width: 477px;
+  font-size: clamp(14px, 1.125rem, 18px);
+  line-height: 1.6;
+  color: #fff;
+  margin-top: 20px;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 43px;
+}
+
+/* Homepage Figma 2108:823 / 2108:826 — 200×44 columns, 12px apart */
+.hero-cta-slot,
+.watch-demo-outer {
+  width: 200px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.hero-cta-slot .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.watch-demo-outer {
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.watch-demo-inner {
+  width: 100%;
+  justify-content: center;
+  border-radius: 300px;
+  /* Outer line-height 0 (Figma) — avoids extra metrics inside 44px button */
+  line-height: 0;
+}
+
+.watch-demo-inner:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/*
+ * Figma 2108:828: text fills 136×22 at x32 in 200-wide frame → centered line.
+ * Inline flow preserves kerning/spacing vs flex items; spans use leading-[22px].
+ */
+.watch-demo-copy {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 19px;
+  line-height: 22px;
+  text-align: center;
+}
+
+.watch-demo-label {
+  display: inline;
+  font-family: var(--font-sf);
+  font-weight: 590;
+  font-variation-settings: 'wdth' 100;
+  line-height: 22px;
+}
+
+.watch-demo-play {
+  display: inline;
+  font-family: var(--font-sf);
+  font-weight: 400;
+  font-variation-settings: 'wdth' 100;
+  line-height: 22px;
+  vertical-align: middle;
+}
+
+.btn-hero-primary {
+  height: 44px;
+  padding: 10px 20px;
+  font-size: 19px;
+  line-height: 22px;
+}
+
+.btn-hero-secondary {
+  height: 44px;
+  padding: 10px 20px;
+  font-size: 19px;
+  line-height: 22px;
+}
+
+.trust-row {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.trust-intro {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: normal;
+  color: #94a5c2;
+  margin: 0;
+}
+
+.trust-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+}
+
+.trust-row .stars {
+  font-family: var(--font-inter);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: normal;
+  color: #ffcc1a;
+  letter-spacing: 2px;
+}
+
+.trust-rating {
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: normal;
+  color: #94a5c2;
+  margin-left: 10px;
+}
+
+/* Sections shared */
+.sheet {
+  position: relative;
+  padding-block: clamp(72px, 12vw, 120px);
+  overflow: clip;
+}
+
+.sheet-dark {
+  background: linear-gradient(180deg, #121a2e 0%, #000 100%);
+}
+
+.sheet-muted {
+  background: linear-gradient(180deg, #121a2e 0%, #0a0e19 100%);
+}
+
+.sheet-bg-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.sheet-bg-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sheet-vector {
+  position: absolute;
+  inset: -20% -15% auto -25%;
+  width: 140%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.sheet-vector img {
+  width: 100%;
+  height: auto;
+}
+
+.section-inner {
+  position: relative;
+  z-index: 1;
+}
+
+.section-eyebrow {
+  font-family: var(--font-sf);
+  font-variation-settings: 'wdth' 100;
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-weight: 510;
+  letter-spacing: 0.16em;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-size: clamp(2.35rem, 6vw, 4.55rem);
+  line-height: 1.06;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  margin: 0 0 clamp(28px, 5vw, 48px);
+  max-width: 18ch;
+}
+
+.section-lede {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  max-width: 36rem;
+  color: #f2f2f2;
+  line-height: 1.65;
+  margin-bottom: 40px;
+  font-size: clamp(14px, 1.0625rem, 18px);
+}
+
+.feature-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .feature-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.feature-card {
+  border: 1px solid var(--accent);
+  border-radius: 18px;
+  padding: 22px 20px;
+  background: linear-gradient(
+    165deg,
+    rgba(18, 26, 46, 0.95),
+    rgba(0, 0, 0, 0.9)
+  );
+  box-shadow: 0 10px 28px rgba(18, 26, 46, 0.25);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.feature-card h3 {
+  font-family: var(--font-sf);
+  font-weight: 590;
+  margin: 16px 0 8px;
+  font-size: clamp(17px, 1.125rem, 22px);
+}
+
+.feature-card p {
+  font-family: var(--font-inter);
+  font-weight: 400;
+  margin: 0 0 16px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.feature-card a {
+  color: #00ff87;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Training */
+.training-grid-top {
+  max-width: 32rem;
+  margin-bottom: 40px;
+}
+
+.stat-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.stat-line-label {
+  color: rgba(242, 242, 242, 0.95);
+}
+
+.stat-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+  grid-column: 1 / -1;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #00ccff);
+  border-radius: inherit;
+}
+
+.stat-panels {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 900px) {
+  .stat-panels {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .training-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+    gap: 48px;
+    align-items: start;
+  }
+}
+
+.stat-mini {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  background: rgba(18, 26, 46, 0.75);
+}
+
+.stat-mini h4 {
+  margin: 0;
+  font-size: 42px;
+  font-weight: 800;
+}
+
+.stat-mini span {
+  color: rgba(242, 242, 242, 0.85);
+}
+
+/* Community */
+.leader-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(10, 15, 27, 0.9);
+}
+
+.leader-row {
+  display: grid;
+  grid-template-columns: 40px 44px minmax(120px, 1fr) auto auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(148, 165, 194, 0.15);
+}
+
+.leader-head {
+  background: rgba(18, 26, 46, 0.95);
+  color: rgba(242, 242, 242, 0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: max(11px, 0.7rem);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .leader-card {
+    overflow-x: auto;
+  }
+
+  .leader-row {
+    min-width: 520px;
+    font-size: max(14px, 0.875rem);
+  }
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #02fb9b, var(--line));
+}
+
+.leader-strong {
+  background: rgba(2, 251, 155, 0.12);
+}
+
+/* Pricing */
+.pricing-shell {
+  position: relative;
+}
+
+.pricing-lede-note {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: -24px;
+  margin-bottom: 40px;
+}
+
+.pricing-lede-note a {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.pricing-row {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+@media (min-width: 960px) {
+  .pricing-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pricing-split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(260px, 1.08fr);
+    gap: clamp(28px, 4vw, 56px);
+  }
+}
+
+.pricing-card {
+  border-radius: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(
+    165deg,
+    rgba(18, 26, 46, 0.95),
+    rgba(0, 0, 0, 0.94)
+  );
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.pricing-featured {
+  border-color: var(--accent);
+  background: linear-gradient(
+    180deg,
+    rgba(2, 251, 155, 0.22),
+    rgba(18, 26, 46, 0.92)
+  );
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(2, 251, 155, 0.12);
+}
+
+.badge-pop {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #121a2e;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pricing-card h3 {
+  font-family: var(--font-sf);
+  font-weight: 900;
+  margin: 8px 0 0;
+  font-size: 22px;
+}
+
+.pr-desc {
+  color: rgba(242, 242, 242, 0.78);
+}
+
+.pr-price {
+  font-size: clamp(2rem, 4vw, 2.65rem);
+  font-weight: 800;
+}
+
+.pr-cycle {
+  color: rgba(242, 242, 242, 0.65);
+  font-size: 14px;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 12px;
+  flex: 1;
+}
+
+.pricing-card li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  color: #f2f2f2;
+}
+
+.check-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+  background: radial-gradient(circle at 30% 30%, var(--accent), #0a4831);
+}
+
+.footer {
+  padding-block: clamp(56px, 10vw, 88px);
+  border-top: 1px solid rgba(20, 67, 117, 0.35);
+  background: #05070f;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .footer-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.footer-col h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.footer-link {
+  display: block;
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.footer-meta {
+  margin-top: 40px;
+  color: rgba(242, 242, 242, 0.55);
+}

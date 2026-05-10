@@ -1,0 +1,46 @@
+/**
+ * Figma typography (homepage + device UI):
+ * - Brand / display: Cal Sans → https://github.com/calcom/font / Fontshare "Cal Sans"
+ * - Marketing body: Inter
+ * - System UI (nav, phone): SF Pro Display / SF Pro Text → system stack (native on Apple platforms)
+ */
+:root {
+  --font-cal: 'Cal Sans', CalSans, ui-sans-serif, system-ui, sans-serif;
+  --font-inter:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  /**
+   * SF Pro is not redistributable — we select it when installed (macOS/iOS) and fall back.
+   * Figma uses variable axis “wdth”: 100 → `font-variation-settings`.
+   */
+  --font-sf:
+    'SF Pro Display', 'SF Pro Text', -apple-system, BlinkMacSystemFont,
+    'Helvetica Neue', 'Segoe UI', 'Inter', system-ui, sans-serif;
+}
+
+.sf {
+  font-family: var(--font-sf);
+}
+
+/* Figma “Medium” 510 / Semibold 590 / Heavy 860 mapped to closest CSS weights */
+.sf-med {
+  font-weight: 510;
+  font-variation-settings: 'wdth' 100;
+}
+
+.sf-sb {
+  font-weight: 590;
+  font-variation-settings: 'wdth' 100;
+}
+
+.sf-hv {
+  font-weight: 860;
+  font-variation-settings: 'wdth' 100;
+}
+
+.cal {
+  font-family: var(--font-cal);
+}
+
+.inter {
+  font-family: var(--font-inter);
+}

@@ -1,0 +1,62 @@
+:root {
+  --bg-deep: #0a0f1b;
+  --bg-panel: #121a2e;
+  --accent: #02fb9b;
+  --accent-soft: rgba(2, 251, 155, 0.4);
+  --text: #ffffff;
+  --muted: #94a5c2;
+  --line: #144375;
+  --star: #ffcc1a;
+  font-family: var(--font-inter);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 112px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #000;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1.display,
+.hero-display.cal,
+.section-title,
+.pr-price {
+  font-family: var(--font-cal);
+}
+
+.sf-ui,
+.nav-row a,
+.btn,
+.hdr,
+.status,
+.tab-bar {
+  font-family: var(--font-sf);
+}
+
+/* Mobile: body copy never below 14px */
+@media (max-width: 768px) {
+  .body-copy,
+  .section p,
+  .feature-card p,
+  .pricing-card li,
+  .footer-link {
+    font-size: max(14px, 0.9375rem) !important;
+  }
+}
