@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Kinetik website · KINETIK — Performance tracking reimagined</title>
     <!-- Cal Sans — matches Figma “Cal Sans” for logotype + display (open font) -->
     <link
@@ -17,6 +20,23 @@
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&display=swap"
       rel="stylesheet"
     />
+    <!-- Before bundled CSS/JS loads: avoid stark white viewport (looks like “nothing happened”). -->
+    <style>
+      html {
+        background: #0a0f1b;
+      }
+      body {
+        margin: 0;
+        /* Fill visible viewport height on laptop / phone (fallback + dynamic units). */
+        min-height: 100vh;
+        min-height: 100dvh;
+        background: #0a0f1b;
+      }
+      #root {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
